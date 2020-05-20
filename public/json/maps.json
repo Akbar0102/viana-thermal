@@ -1,0 +1,22 @@
+[
+	{
+		"shopname": "Sensor",
+		"location":{
+			"type": "Point",
+			"coordinates": [-6.914796, 107.614210]
+		},
+		"details": "Great coffee, atmosphere, and staff.",
+		"website": "http://www.menageriecoffee.com/",
+		"id":"tempChart"
+	},
+	{
+		"shopname": "Sensor",
+		"location":{
+			"type": "Point",
+			"coordinates": [-6.914173, 107.613448]
+		},
+		"details": "Great coffee, atmosphere, and staff.",
+		"website": "http://www.menageriecoffee.com/",
+		"id":"humChart"
+	}
+]

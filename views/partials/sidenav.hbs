@@ -1,0 +1,106 @@
+<!-- Sidenav -->
+  <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+      <!-- Brand -->
+      <div class="sidenav-header d-flex align-items-center">
+        <a class="navbar-brand" href="/">
+        App
+          {{!-- <img src="assets-home/images/smartstation.png" class="navbar-brand-img" alt="..."> --}}
+        </a>
+        <div class="ml-auto">
+          <!-- Sidenav toggler -->
+          <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-inner">
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+          
+          <!-- Heading -->
+          <h6 class="navbar-heading p-0 text-muted">General Menu</h6>
+          <!-- Nav items -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a id="home" class="nav-link {{#if dashboard}} active {{/if}}" href="/dashboard"  role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                <i class="fa fa-home text-primary"></i>
+                <span class="nav-link-text">Dashboard</span>
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a id="analytic" class="nav-link {{#if video_analytics}} active {{/if}}" href="/video-analytics"  role="button" aria-expanded="true" aria-controls="navbar-video-analytics">
+                <i class="fa fa-video text-primary"></i>
+                <span id="blinkdiv" class="nav-link-text blink">Video Analytics</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a id="face" class="nav-link {{#if face}} active {{/if}}" href="/face"  role="button" aria-expanded="true" aria-controls="navbar-video-analytics">
+                <i class="fa fa-smile-beam text-primary"></i>
+                <span class="nav-link-text">Face</span>
+              </a>
+            </li>
+
+            {{!-- <li class="nav-item">
+              <a id="face" class="nav-link" href="/vehicle"  role="button" aria-expanded="true" aria-controls="navbar-video-analytics">
+                <i class="fa fa-car text-primary"></i>
+                <span class="nav-link-text">Vehicle</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a id="batch" class="nav-link" href="/batch-analytics"  role="button" aria-expanded="true" aria-controls="navbar-batch-analytics">
+                <i class="fa fa-fill text-primary"></i>
+                <span class="nav-link-text">Batch Analytics</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a id="peta" class="nav-link" href="/maps" role="button" aria-expanded="false" aria-controls="navbar-maps">
+                <i class="fa fa-map-marked-alt text-primary"></i>
+                <span class="nav-link-text">Maps</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a id="sensor" class="nav-link" href="/sensors" role="button" aria-expanded="false" aria-controls="navbar-maps">
+                <i class="fa fa-temperature-low text-primary"></i>
+                <span class="nav-link-text">Sensors</span>
+              </a>
+            </li>
+                        
+            <li class="nav-item">
+              <a id="media" class="nav-link" href="/media-analytics" role="button" aria-expanded="false" aria-controls="navbar-railway">
+                <i class="fa fa-share-alt text-primary"></i>
+                <span class="nav-link-text">Media Analytics</span>
+              </a>
+            </li> --}}
+          </ul>
+
+          <!-- Divider -->
+          <hr class="my-3">
+          
+          <!-- Heading -->
+          <h6 class="navbar-heading p-0 text-muted">Setting</h6>
+
+          <!-- Navigation -->
+          <ul class="navbar-nav mb-md-3">
+
+            <li class="nav-item">
+              <a class="nav-link" href="/login" role="button" aria-expanded="false" aria-controls="navbar-login">
+                <i class="ni ni-button-power"></i>
+                <span class="nav-link-text">Logout</span>
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
