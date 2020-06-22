@@ -4,56 +4,24 @@ const path = require('path');
 const hbs = require('hbs');
 const fs = require('fs');
 const io = require('socket.io')(8090);
-const web = require('./routes/web');
 const watch = require('node-watch');
-const chokidar = require('chokidar');
-const mail = require("./config/mail");
-const {Telegram} = require('telegraf');
 
 const app = express();
 
-let data;
-let interval;
-let warning;
-
-//bot telegram
-const tg = new Telegram(process.env.BOT_TOKEN);
+const db = require('./config/db');
+const web = require('./routes/web');
+const admin = require('./routes/admin.routes');
 
 hbs.registerPartials("./views/partials");
 app.set('view-engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.use(express.static("./public"));
 app.use('/', web);
-
-//baca file
-function getFileReadPromise(){
-	return new Promise((resolve, reject)=>{
-		fs.readFile('./data.json', function(err, data){
-      if(err) reject(err);
-      if(!isEmptyObject(data)){
-        try {
-          resolve(JSON.parse(data));
-        } catch (error) {
-          return false;
-        }
-      }
-		})
-	});
-}
-
-//read json face info
-function getFileFace(faceinfo){
-	return new Promise((resolve, reject)=>{
-		fs.readFile(faceinfo, function(err, data){
-      if(err) reject(new Error('Could not get the file'));
-      if(!isEmptyObject(data)){
-        resolve(JSON.parse(data));
-      }
-		})
-	});
-}
+app.use('/api', admin);
 
 //read filename and then split filename
 function getSplitName(faceinfo){
@@ -74,38 +42,6 @@ function getSplitName(faceinfo){
   return obj;
 }
 
-//namespace untuk chart object dari json file
-const chart = io.of('/chart');
-chart.on('connection', (socket) => {
-	interval = setInterval(async function(){
-		const object = await getFileReadPromise();
-		if(Object.keys(object).includes('person')){
-      if(Object.values(object)[Object.keys(object).indexOf('person')] > 10){
-        //mail.alert();
-        const txt = `Pemberitahuan. Terindikasi ada seseorang yang membawa senjata tajam berdasarkan pantauan CCTV di titik A. Terima kasih.`;
-        // tg.sendMessage(process.env.GROUP_ID, txt);
-        warning = 'danger';
-      }else{
-        warning = 'safe';
-      }
-    }
-
-    data = {
-      'size': Object.keys(object).length,
-      'label': Object.keys(object),
-      'value': Object.values(object),
-    };
-
-    console.log(object);
-    socket.emit('vote', { object: data, alert: warning });
-	}, 1000);
-
-	socket.on('disconnect', function(){
-    clearInterval(interval);
-		console.log("disconnected!");
-	});
-});
-
 //namespace untuk face
 const face = io.of('/face');
 face.on('connection', (socket) =>{
@@ -118,6 +54,19 @@ face.on('connection', (socket) =>{
         console.log('root '+name.split("\\"));
         try {
           object = getSplitName(name); //split nama file, untuk diambil data-datanya
+          //insert ke db
+          var cat = {
+            device: 'DEV01',
+            temperature: object.temp,
+            image: `/WLIR/Preview/${object.dir}/${object.filename}`,
+            date: object.date,
+            time: object.time,
+            type: 'normal'
+          };
+          var query = db.query('INSERT INTO tb_face SET ?', cat, function(err,
+            result) {
+            console.log(result);
+          });
         } catch (error) {
           console.log('Error: ', error.message);
         }

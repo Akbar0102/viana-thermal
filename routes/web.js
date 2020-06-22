@@ -19,12 +19,6 @@ router.get('/dashboard', (req, res) => {
 	});
 });
 
-router.get('/video-analytics', (req, res) => {
-	res.render('admin/video-analytics.hbs', {
-		video_analytics: true
-	});
-});
-
 router.get('/face', (req, res) => {
 	res.render('admin/face.hbs', {
 		face: true
