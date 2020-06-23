@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var img = document.getElementById('img');
-    var socket = io.connect('http://localhost:8090');
     var count = 0;
     var arr = [];
 

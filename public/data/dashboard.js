@@ -71,21 +71,26 @@ $(document).ready(function() {
     var myDoughnutChart = new Chart(ctxpie, config);
     var myChartenergy = new Chart(ctxenergy, config_line);
 
-    $.ajax({
-        url: '/api/face/count',
-        type: 'POST',
-        dataType: 'json',
-        data: {date: '2020-05-09'},
-        success: function(response){
-            jml.innerHTML = response[0].jumlah+" ";
-            normal.innerHTML = response[0].normal+" ";
-            suspect.innerHTML = response[0].suspect+" ";
-
-            config.data.datasets[0].data = Object.values(response[0]);
-            config.data.labels = Object.keys(response[0]);
-            myDoughnutChart.update();
-        }
-    });
+    (function update() {
+        $.ajax({
+            url: '/api/face/count',
+            type: 'POST',
+            dataType: 'json',
+            data: {date: '2020-05-09'},
+            success: function(response){
+                jml.innerHTML = response[0].jumlah+" ";
+                normal.innerHTML = response[0].normal+" ";
+                suspect.innerHTML = response[0].suspect+" ";
+    
+                config.data.datasets[0].data = Object.values(response[0]);
+                config.data.labels = Object.keys(response[0]);
+    
+                myDoughnutChart.update();
+            }
+        }).then(function() {           // on completion, restart
+           setTimeout(update, 60000);  // function refers to itself
+        });
+    })();
 
     (function update() {
         $.ajax({
@@ -99,7 +104,11 @@ $(document).ready(function() {
                 config_line.data.labels = result;
                 config_line.data.datasets[0].data = jml;
 
-                console.log(response);
+                var length = config_line.data.labels.length;
+                if(length >= 10){
+                    config_line.data.datasets[0].data.shift()
+                    config_line.data.labels.shift()
+                }
     
                 myChartenergy.update();
             }                       // pass existing options
