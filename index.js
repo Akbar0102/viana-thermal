@@ -78,7 +78,32 @@ face.on('connection', (socket) =>{
 
   //watcher folder reminder - root (alert)
   const watcher_reminder = watch('./public/WLIR/Reminder', {recursive: true}, function(evt, name){
-
+    if (evt == 'update') {
+      var stats = fs.statSync(name); //ada objek baru, ambil statusnya
+      if(!stats.isDirectory()){ //kalau folder baru, tidak perlu di ambil data filename nya untuk d split
+        console.log('root '+name.split("\\"));
+        try {
+          object = getSplitName(name); //split nama file, untuk diambil data-datanya
+          //insert ke db
+          var cat = {
+            device: 'DEV01',
+            temperature: object.temp,
+            image: `/WLIR/Reminder/${object.dir}/${object.filename}`,
+            date: object.date,
+            time: object.time,
+            type: 'suspect'
+          };
+          var query = db.query('INSERT INTO tb_face SET ?', cat, function(err,
+            result) {
+            console.log(result);
+          });
+        } catch (error) {
+          console.log('Error: ', error.message);
+        }
+        console.log(object);  
+        socket.emit('alert', object);
+      }
+    }
   });
   
   socket.on('disconnect', function(){
@@ -90,14 +115,5 @@ face.on('connection', (socket) =>{
 app.listen(4000, () => {
     console.log('serving on port 4000');
 });
-
-function isEmptyObject(obj) {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false;
-    }
-  }
-  return true;
-}
 
 

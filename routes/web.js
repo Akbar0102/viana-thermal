@@ -19,6 +19,12 @@ router.get('/dashboard', (req, res) => {
 	});
 });
 
+router.get('/report', (req, res) => {
+	res.render('admin/report.hbs', {
+		report: true
+	});
+});
+
 router.get('/face', (req, res) => {
 	res.render('admin/face.hbs', {
 		face: true
