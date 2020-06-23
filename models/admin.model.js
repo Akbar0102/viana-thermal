@@ -10,7 +10,8 @@ const Face = function(face){
 }
 
 Face.getAll = (date, result) => {
-    sql.query(`SELECT id_face, device, temperature, image, time, type, DATE_FORMAT(date,'%Y/%m/%d') as date FROM tb_face WHERE date = "${date}"`, (err, res)=>{
+    sql.query(`SELECT id_face, device, temperature, image, time, type, 
+    DATE_FORMAT(date,'%Y/%m/%d') as date FROM tb_face WHERE date = "${date}"`, (err, res)=>{
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -23,7 +24,10 @@ Face.getAll = (date, result) => {
 }
 
 Face.getCountAll = (date, result) => {
-    sql.query(`SELECT COUNT(id_face) AS jumlah FROM tb_face WHERE date =" ${date}"`, (err, res)=>{
+    sql.query(`SELECT count(id_face) AS jumlah,
+    sum(case when type = 'normal' then 1 else 0 end) AS normal,
+    sum(case when type = 'suspect' then 1 else 0 end) AS suspect
+    FROM tb_face WHERE date =" ${date}"`, (err, res)=>{
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -35,15 +39,15 @@ Face.getCountAll = (date, result) => {
     });
 }
 
-Face.getType = (date, type, result) => {
-    sql.query(`SELECT COUNT(id_face) AS jumlah, type FROM tb_face WHERE date = "${date}" AND type = "${type}"`, (err, res)=>{
+Face.getCountDaily = (date, result) => {
+    sql.query(`SELECT day(date) AS tanggal, hour(time) AS jam, count(*) as jumlah FROM tb_face WHERE date = "${date}" GROUP BY hour(time), day(date) ORDER BY tanggal`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-      
-        console.log("face type: ", res);
+    
+        console.log("face all: ", res);
         result(null, res);
     });
 }

@@ -25,13 +25,13 @@ exports.countAll = (req, res) => {
   });
 }
 
-exports.findType = (req, res) => {
-  Face.getType(req.body.date, req.body.type, (err,data) => {
+exports.countDaily = (req, res) => {
+  Face.getCountDaily(req.body.date, (err,data) => {
     if (err)
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving customers."
-    });
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving customers."
+      });
     else res.send(data);
   });
 }

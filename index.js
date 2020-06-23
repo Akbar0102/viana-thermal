@@ -43,8 +43,8 @@ function getSplitName(faceinfo){
 }
 
 //namespace untuk face
-const face = io.of('/face');
-face.on('connection', (socket) =>{
+//const face = io.of('/face');
+io.on('connection', (socket) =>{
   let object = '';
   //watcher folder preview - root
   const watcher_info = watch('./public/WLIR/Preview', {recursive: true}, function(evt, name) {

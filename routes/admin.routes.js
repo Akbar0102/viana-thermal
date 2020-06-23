@@ -5,6 +5,6 @@ const face = require("../controllers/admin.controller");
 
 router.post("/face", face.findAll);
 router.post("/face/count", face.countAll);
-router.post("/face/type", face.findType);
+router.post("/face/daily", face.countDaily);
 
 module.exports = router;

@@ -100,9 +100,7 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- Chart -->
               <div class="chart" style="height: auto;">
-                <!-- Chart wrapper -->
                 <canvas id="myChart-energy"></canvas> 
               </div>
             </div>
@@ -123,35 +121,9 @@
 
                 <div class="col-xl-12 col-md-12">
                   <div class="card border-2 mb--1">
-                    <!-- Card body -->
                     <div class="card-body">
-                      <div class="row"> 
-
-                        {{!-- donut chart --}}
-                        <!-- partial:index.partial.html -->
-                        <div id="app">
-                            <graph-pie
-                                    :width="350"
-                                    :height="350"
-                                    :padding-top="30"
-                                    :padding-right="20"
-                                    :padding-bottom="50"
-                                    :padding-left="20"
-                                    :values="values"
-                                    :names="names"
-                                    :colors="[ '#6FCF97', '#F2C94C', '#EB5757' ]"
-                                    :active-index="[ 0, 2 ]"
-                                    :active-event="'click'"
-                                    :show-text-type="'outside'"
-                                    :data-format="dataFormat"
-                                    :shape="'donut'"
-                                    :show-total-value="true">
-                                <legends :names="names"></legends>
-                                <tooltip :names="names"></tooltip>
-                            </graph-pie>
-                        </div>
-                        <!-- partial -->
-
+                      <div class="chart">
+                        <canvas id="pie-energy"></canvas> 
                       </div>
                     </div>
                   </div>
