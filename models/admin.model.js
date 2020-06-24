@@ -25,8 +25,8 @@ Face.getAll = (date, result) => {
 
 Face.getCountAll = (date, result) => {
     sql.query(`SELECT count(id_face) AS jumlah,
-    sum(case when type = 'normal' then 1 else 0 end) AS normal,
-    sum(case when type = 'suspect' then 1 else 0 end) AS suspect
+    COALESCE(sum(case when type = 'normal' then 1 else 0 end), 0) AS normal,
+    COALESCE(sum(case when type = 'suspect' then 1 else 0 end), 0) AS suspect
     FROM tb_face WHERE date =" ${date}"`, (err, res)=>{
         if (err) {
             console.log("error: ", err);
@@ -40,7 +40,7 @@ Face.getCountAll = (date, result) => {
 }
 
 Face.getCountDaily = (date, result) => {
-    sql.query(`SELECT day(date) AS tanggal, hour(time) AS jam, count(*) as jumlah FROM tb_face WHERE date = "${date}" GROUP BY hour(time), day(date) ORDER BY tanggal`, (err, res) => {
+    sql.query(`SELECT day(date) AS tanggal, hour(time) AS jam, count(*) as jumlah FROM tb_face WHERE date = "${date}" GROUP BY hour(time), day(date) ORDER BY tanggal, jam`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

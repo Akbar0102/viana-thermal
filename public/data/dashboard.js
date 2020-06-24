@@ -15,6 +15,10 @@ $(document).ready(function() {
         purple: 'rgb(153, 102, 255)',
         grey: 'rgb(201, 203, 207)'
     };
+
+    socket.on('data', function(data){
+        localStorage.setItem("date", data.date);
+    });
     
     var config = {
         type: 'pie',
@@ -76,7 +80,7 @@ $(document).ready(function() {
             url: '/api/face/count',
             type: 'POST',
             dataType: 'json',
-            data: {date: '2020-05-09'},
+            data: {date: localStorage.getItem("date")},
             success: function(response){
                 jml.innerHTML = response[0].jumlah+" ";
                 normal.innerHTML = response[0].normal+" ";
@@ -88,7 +92,7 @@ $(document).ready(function() {
                 myDoughnutChart.update();
             }
         }).then(function() {           // on completion, restart
-           setTimeout(update, 60000);  // function refers to itself
+           setTimeout(update, 10000);  // function refers to itself
         });
     })();
 
@@ -97,7 +101,7 @@ $(document).ready(function() {
             url: '/api/face/daily',
             type: 'POST',
             dataType: 'json',
-            data: {date: '2020-05-09'},
+            data: {date: localStorage.getItem("date")},
             success: function(response){
                 let result = response.map(a => a.jam);
                 let jml = response.map(a => a.jumlah);
@@ -113,7 +117,7 @@ $(document).ready(function() {
                 myChartenergy.update();
             }                       // pass existing options
         }).then(function() {           // on completion, restart
-           setTimeout(update, 60000);  // function refers to itself
+           setTimeout(update, 10000);  // function refers to itself
         });
     })();
     

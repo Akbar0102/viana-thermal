@@ -42,6 +42,22 @@ function getSplitName(faceinfo){
   return obj;
 }
 
+function getSplitAlarm(faceinfo){
+  let filename = faceinfo.split("\\");
+  let splitName = filename[filename.length-1].split('_');
+  let newtime = splitName[3].slice(0,2)+":"+splitName[3].slice(2,4)+":"+splitName[3].slice(-2);
+
+  let obj = {
+    dir: filename[filename.length-2],
+    filename: filename[filename.length-1],
+    date: splitName[2],
+    time: newtime,
+    temp: splitName[4].slice(0,6)
+  }
+
+  return obj;
+}
+
 //namespace untuk face
 //const face = io.of('/face');
 io.on('connection', (socket) =>{
@@ -83,7 +99,7 @@ io.on('connection', (socket) =>{
       if(!stats.isDirectory()){ //kalau folder baru, tidak perlu di ambil data filename nya untuk d split
         console.log('root '+name.split("\\"));
         try {
-          object = getSplitName(name); //split nama file, untuk diambil data-datanya
+          object = getSplitAlarm(name); //split nama file, untuk diambil data-datanya
           //insert ke db
           var cat = {
             device: 'DEV01',

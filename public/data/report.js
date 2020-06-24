@@ -7,7 +7,7 @@ $(document).ready(function() {
             url: "/api/face",
             type: 'POST',
             dataType: 'json',
-            data: {date: '2020-05-09'},
+            data: {date: localStorage.getItem("date")},
         },
         paging: true,
         language: {
