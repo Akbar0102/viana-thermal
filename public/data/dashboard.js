@@ -92,7 +92,7 @@ $(document).ready(function() {
                 myDoughnutChart.update();
             }
         }).then(function() {           // on completion, restart
-           setTimeout(update, 10000);  // function refers to itself
+           setTimeout(update, 60000);  // function refers to itself
         });
     })();
 
@@ -117,7 +117,7 @@ $(document).ready(function() {
                 myChartenergy.update();
             }                       // pass existing options
         }).then(function() {           // on completion, restart
-           setTimeout(update, 10000);  // function refers to itself
+           setTimeout(update, 60000);  // function refers to itself
         });
     })();
     
