@@ -23,7 +23,7 @@
     "node-watch": "^0.6.3",
     "nodemailer": "^6.3.1",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "telegraf": "^3.33.3"
   },
   "devDependencies": {
